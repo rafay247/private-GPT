@@ -1,0 +1,31 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./ollama_data:/root/.ollama
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    restart: always
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: open-webui
+    ports:
+      - "8030:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - HF_HUB_OFFLINE=1
+      - TRANSFORMERS_OFFLINE=1
+      - SENTENCE_TRANSFORMERS_HOME=/app/backend/data/cache/embedding/models
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    volumes:
+      - ./open-webui_data:/app/backend/data
+    depends_on:
+      - ollama
+    restart: always

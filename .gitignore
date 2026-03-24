@@ -1,0 +1,10 @@
+# Local model weights and Ollama state (large, machine-specific)
+ollama_data/
+
+# Open WebUI app data, DB, caches, secrets (large, sensitive)
+open-webui_data/
+
+# Optional: env files with tokens / API keys
+.env
+.env.*
+!.env.example
